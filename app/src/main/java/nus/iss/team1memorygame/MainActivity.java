@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void showPopup(){
         View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.popup_layout, null);
-        popupWindow = new PopupWindow(popupView, 700, 700);
+        popupWindow = new PopupWindow(popupView, 900, 700);
         popupWindow.setElevation(10f);
         TextView textView1 = popupView.findViewById(R.id.popView);
         textView1.setVisibility(View.VISIBLE);

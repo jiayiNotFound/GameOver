@@ -37,6 +37,7 @@ public class ImageAdapter extends BaseAdapter {
 
 
     private String[] mImagePaths;
+    String previousId;
     float scale;
     String[] selectedImage =new String[6];
     int seletedCount =0;
@@ -98,23 +99,29 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setVisibility(View.INVISIBLE);
         }
         String imageId = getItem(position).toString();
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(seletedCount<6){
-                    Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.scale_animation);
-                    imageView.setBackground(mContext.getDrawable(R.drawable.border_selected));
-                    imageView.setElevation(10f);
-                    imageView.startAnimation(anim);
-                    selectImageView.add(imageView);
-                    selectedImage[seletedCount] = imageId;
+                if(previousId!=imageId){
+                    if(seletedCount<6){
+                        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.scale_animation);
+                        imageView.setBackground(mContext.getDrawable(R.drawable.border_selected));
+                        imageView.setElevation(10f);
+                        imageView.startAnimation(anim);
+                        selectImageView.add(imageView);
+                        selectedImage[seletedCount] = imageId;
+                    }
+                    seletedCount++;
+                    if(seletedCount==6){
+                        showPopup(v);
+                    }
                 }
-                seletedCount++;
-                if(seletedCount==6){
-                    showPopup(v);
-                }
+                previousId = imageId;
             }
+
         });
+
         return imageView;
     }
     private int dpToPx(int dp) {
@@ -123,7 +130,7 @@ public class ImageAdapter extends BaseAdapter {
     }
     public void showPopup(View v){
         View popupView = LayoutInflater.from(mContext).inflate(R.layout.popup_layout, null);
-        PopupWindow popupWindow = new PopupWindow(popupView, 700, 700);
+        PopupWindow popupWindow = new PopupWindow(popupView, 1000, 800);
         Button play = popupView.findViewById(R.id.startBtn);
 
         Button choose = popupView.findViewById(R.id.choose);

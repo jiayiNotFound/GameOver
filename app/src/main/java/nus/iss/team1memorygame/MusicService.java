@@ -57,11 +57,11 @@ public class MusicService extends Service {
             stopSong();
         }
         if(i==0){
-            player = MediaPlayer.create(this, R.raw.bgm2);
+            player = MediaPlayer.create(this, R.raw.yy);
         }else {
             player = MediaPlayer.create(this, R.raw.sunny);
         }
-
+        player.setLooping(true);
         player.start();
 
         onPlay();

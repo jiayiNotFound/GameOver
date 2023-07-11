@@ -30,19 +30,6 @@
             android:text="Fetch" />
     </LinearLayout>
 
-<!--    <GridView-->
-<!--        android:id="@+id/gridView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1"-->
-<!--        android:numColumns="4"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        android:minWidth="70dp"-->
-<!--        android:minHeight="80dp"-->
-<!--        android:verticalSpacing="10dp"-->
-<!--        android:horizontalSpacing="10dp"-->
-<!--        android:padding="1dp"-->
-<!--        android:gravity="center" />-->
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"

@@ -93,7 +93,7 @@ public class GameActivity extends AppCompatActivity {
     }
     public void showPopup(){
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
-        popupWindow = new PopupWindow(popupView, 700, 700);
+        popupWindow = new PopupWindow(popupView, 1000, 1000);
         popupWindow.setElevation(10f);
         TextView textView1 = popupView.findViewById(R.id.popView);
         textView1.setText("Game Over, time spend: "+count);

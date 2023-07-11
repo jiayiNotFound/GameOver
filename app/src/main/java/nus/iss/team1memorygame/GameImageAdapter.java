@@ -26,7 +26,9 @@ public class GameImageAdapter extends BaseAdapter {
     private Context mContext;
     private String[] hidden = new String[12];
     String previousSelect = "";
+    int previousPostion;
     ImageView previousImage;
+    ImageView temp;
     int match=0;
 
 
@@ -91,39 +93,44 @@ public class GameImageAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    File imageFile = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), hidden[position]);
-                    Uri imageUri = Uri.fromFile(imageFile);
-                    int isSame =0;
-                    imageView.setImageURI(imageUri);
+                  if(previousPostion!=position){
+                      File imageFile = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), hidden[position]);
+                      Uri imageUri = Uri.fromFile(imageFile);
+                      int isSame =0;
+                      imageView.setImageURI(imageUri);
 //                    previousImage =imageView;
 
-                    if(previousSelect.equals(hidden[position])){
-                        imageView.setImageURI(imageUri);
-                        imageView.setOnClickListener(null);
-                        previousImage.setOnClickListener(null);
-                        isSame =1;
-                        match++;
-                        if(match==6){
-                            Intent completed = new Intent();
-                            completed.setAction("game_over");
-                            mContext.sendBroadcast(completed);
-                        }
+                      if(previousSelect.equals(hidden[position])){
+                          imageView.setImageURI(imageUri);
+                          imageView.setOnClickListener(null);
+                          previousImage.setOnClickListener(null);
 
-                    }
+                          isSame =1;
+                          match++;
+                          if(match==6){
+                              Intent completed = new Intent();
+                              completed.setAction("game_over");
+                              mContext.sendBroadcast(completed);
+                          }
 
-                    else if(previousImage!=null){
-                        previousImage.setImageResource(R.drawable.dog);
-                    }
+                      }
 
-                    if(isSame==1){
-                        previousSelect="";
-                        previousImage =null;
+                      else if(previousImage!=null){
+                          previousImage.setImageResource(R.drawable.dog);
 
-                    }else {
-                        previousSelect=hidden[position];
-                        previousImage =imageView;
+                      }
 
-                    }
+                      if(isSame==1){
+                          previousSelect="";
+                          previousImage =null;
+
+                      }else {
+                          previousSelect=hidden[position];
+                          previousImage =imageView;
+                      }
+                  }
+
+                previousPostion =position;
 
             }
         });

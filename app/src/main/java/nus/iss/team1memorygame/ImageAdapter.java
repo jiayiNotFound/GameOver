@@ -79,7 +79,9 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(0, 20, 0,20);
+            imageView.setPadding(10, 10, 10,10);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
 
         } else {
             imageView = (ImageView) convertView;
@@ -96,23 +98,21 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setVisibility(View.INVISIBLE);
         }
         String imageId = getItem(position).toString();
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.scale_animation);
-                imageView.setBackground(mContext.getDrawable(R.drawable.border_selected));
-                imageView.startAnimation(anim);
-                selectImageView.add(imageView);
-                selectedImage[seletedCount] = imageId;
+                if(seletedCount<6){
+                    Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.scale_animation);
+                    imageView.setBackground(mContext.getDrawable(R.drawable.border_selected));
+                    imageView.setElevation(10f);
+                    imageView.startAnimation(anim);
+                    selectImageView.add(imageView);
+                    selectedImage[seletedCount] = imageId;
+                }
                 seletedCount++;
-
                 if(seletedCount==6){
-
                     showPopup(v);
                 }
-
             }
         });
         return imageView;

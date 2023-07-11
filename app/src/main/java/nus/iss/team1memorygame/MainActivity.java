@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     public void run() {
                                                         popupWindow.dismiss(); // 关闭弹出窗口
                                                     }
-                                                }, 5000);
+                                                }, 3000);
                                             }
                                         }, 1000);
 

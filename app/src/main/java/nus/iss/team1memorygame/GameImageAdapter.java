@@ -99,10 +99,11 @@ public class GameImageAdapter extends BaseAdapter {
 
                     if(previousSelect.equals(hidden[position])){
                         imageView.setImageURI(imageUri);
+                        imageView.setOnClickListener(null);
+                        previousImage.setOnClickListener(null);
                         isSame =1;
                         match++;
                         if(match==6){
-
                             Intent completed = new Intent();
                             completed.setAction("game_over");
                             mContext.sendBroadcast(completed);
@@ -123,7 +124,6 @@ public class GameImageAdapter extends BaseAdapter {
                         previousImage =imageView;
 
                     }
-
 
             }
         });

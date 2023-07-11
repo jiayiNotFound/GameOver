@@ -103,7 +103,15 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(previousId!=imageId){
+                Boolean res =false;
+                if(selectedImage.length!=0){
+                    for (int i = 0; i < selectedImage.length; i++) {
+                        if (selectedImage[i] == imageId) {
+                            res = true;
+                        }
+                    }
+                }
+                if(!res){
                     if(seletedCount<6){
                         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.scale_animation);
                         imageView.setBackground(mContext.getDrawable(R.drawable.border_selected));

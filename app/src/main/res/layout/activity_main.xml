@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="40dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+        <EditText
+            android:id="@+id/EditURL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Please input URL"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp" />
+        <Button
+            android:id="@+id/FetchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fetch" />
+    </LinearLayout>
+
+<!--    <GridView-->
+<!--        android:id="@+id/gridView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:numColumns="4"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:minWidth="70dp"-->
+<!--        android:minHeight="80dp"-->
+<!--        android:verticalSpacing="10dp"-->
+<!--        android:horizontalSpacing="10dp"-->
+<!--        android:padding="1dp"-->
+<!--        android:gravity="center" />-->
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="4"
+        android:layout_marginTop="5dp"
+        android:minHeight="95dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:gravity="center" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="0/20" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:indeterminate="false"
+            android:max="20"
+            android:visibility="invisible"
+            android:progress="1" />
+
+    </LinearLayout>
+</LinearLayout>

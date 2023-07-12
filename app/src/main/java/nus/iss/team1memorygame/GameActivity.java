@@ -20,6 +20,17 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -32,7 +43,14 @@ public class GameActivity extends AppCompatActivity {
     TextView textView;
     Timer timer;
     int count =0;
+
+    String username;
     String[] selectedImage =new String[6];
+
+
+    String filePath = "userHistory";
+    String fileName = "history.txt";
+    File mTargetFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
         gridView = findViewById(R.id.gameGrid);
         Intent intent = getIntent();
         selectedImage = intent.getStringArrayExtra("listSelected");
+        username  = intent.getStringExtra("username");
         gridView.setAdapter(new GameImageAdapter(GameActivity.this,selectedImage));
 
         IntentFilter intentFilter = new IntentFilter("game_over");
@@ -81,11 +100,43 @@ public class GameActivity extends AppCompatActivity {
             if(action.equals("game_over")){
                stopTimer();
                 showPopup();
+                writeToFile(username,count);
             }
         }
 
     };
 
+    protected void writeToFile(String resource, int count) {
+        try {
+            // Make sure that the parent folder exists
+            File parent = new File(getFilesDir(), filePath);
+            if (!parent.exists() && !parent.mkdirs()) {
+                throw new IllegalStateException("Couldn't create dir: " + parent);
+            }
+
+            // Create or append to the target file
+            mTargetFile = new File(parent, fileName);
+            FileWriter fileWriter = new FileWriter(mTargetFile, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // Get the current local date and time
+            LocalDateTime now = LocalDateTime.now();
+
+            // Format the record with username, count, and current time
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedTime = now.format(formatter);
+            String record = resource + ": " + count + " " + formattedTime;
+
+            // Write the record to the file
+            bufferedWriter.write(record);
+            bufferedWriter.newLine(); // Add a new line
+
+            bufferedWriter.close(); // Close the writer
+            Toast.makeText(this, "Write file ok!", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -100,8 +151,20 @@ public class GameActivity extends AppCompatActivity {
         textView1.setVisibility(View.VISIBLE);
 
         Button button =popupView.findViewById(R.id.startBtn);
-        button.setText("Play again?");
+        button.setText("Play again");
         button.setVisibility(View.VISIBLE);
+
+        Button viewHistory = popupView.findViewById(R.id.choose);
+        viewHistory.setText("View History");
+        viewHistory.setVisibility(View.VISIBLE);
+        viewHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameActivity.this,HistoryActivity.class);
+                intent.putExtra("file",mTargetFile);
+                startActivity(intent);
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,5 +175,7 @@ public class GameActivity extends AppCompatActivity {
 
         popupWindow.showAtLocation(this.gridView, Gravity.CENTER, 0, 0);
     }
+
+
 
 }

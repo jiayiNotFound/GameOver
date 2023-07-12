@@ -1,5 +1,6 @@
 package nus.iss.team1memorygame;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,10 +17,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -27,12 +30,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends BaseAdapter implements CustomDialog.OnDialogButtonClickListener{
     private Context mContext;
 
 
@@ -163,16 +172,34 @@ public class ImageAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                Intent intentS = new Intent(mContext, MusicService.class);
-                intentS.setAction("play");
-                mContext.startService(intentS);
-
-                Intent intent = new Intent(mContext,GameActivity.class);
-                intent.putExtra("listSelected",selectedImage);
-                mContext.startActivity(intent);
+                showDialog();
             }
         });
         popupWindow.setElevation(10f);
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
+
+
+    private void showDialog() {
+        CustomDialog customDialog = new CustomDialog(mContext);
+        customDialog.setOnDialogButtonClickListener(this);
+        customDialog.show();
+    }
+    @Override
+    public void onButtonClicked(String inputText) {
+
+        if(inputText!=null){
+            Intent intentS = new Intent(mContext, MusicService.class);
+            intentS.setAction("play");
+            mContext.startService(intentS);
+
+            Intent intent = new Intent(mContext,GameActivity.class);
+            intent.putExtra("listSelected",selectedImage);
+            intent.putExtra("username",inputText);
+            mContext.startActivity(intent);
+        }
+
+    }
+
 }
+

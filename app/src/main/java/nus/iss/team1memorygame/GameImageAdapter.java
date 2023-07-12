@@ -122,6 +122,7 @@ public class GameImageAdapter extends BaseAdapter {
                           previousSelect=hidden[position];
                           previousImage =imageView;
                       }
+
                   }
                 previousPosition =position;
             }

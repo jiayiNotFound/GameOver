@@ -22,7 +22,7 @@ public class GameImageAdapter extends BaseAdapter {
     private Context mContext;
     private String[] hidden = new String[12];
     String previousSelect = "";
-    int previousPosition;
+    int previousPosition=-999;
     ImageView previousImage;
     ImageView temp;
     int match=0;

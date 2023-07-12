@@ -151,10 +151,13 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopTimer();
+        Intent intent = new Intent(this,MusicService.class);
+        intent.setAction("stop");
+        startService(intent);
     }
     public void showPopup(){
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
-        popupWindow = new PopupWindow(popupView, 900, 600);
+        popupWindow = new PopupWindow(popupView, 900, 900);
         popupWindow.setElevation(10f);
         TextView textView1 = popupView.findViewById(R.id.popView);
         int minutes = count / 60;
@@ -191,7 +194,5 @@ public class GameActivity extends AppCompatActivity {
         });
         popupWindow.showAtLocation(this.gridView, Gravity.CENTER, 0, 0);
     }
-
-
 
 }

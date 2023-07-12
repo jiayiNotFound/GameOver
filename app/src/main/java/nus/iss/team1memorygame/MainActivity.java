@@ -227,6 +227,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(this,MusicService.class);
+        intent.setAction("stop");
+        startService(intent);
+    }
+
+
 }
 
 

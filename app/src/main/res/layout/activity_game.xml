@@ -7,14 +7,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".GameActivity">
+
     <TextView
         android:id="@+id/textS"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time Spend:0s"
-        android:gravity="center"/>
+        android:text="Time Spent:0s"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:id="@+id/txtMatches"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Matches"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        />
 
     <GridView
         android:id="@+id/gameGrid"

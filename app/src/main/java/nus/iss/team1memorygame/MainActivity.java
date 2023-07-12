@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         gridView = findViewById(R.id.gridView);
-//
-//        gridView.setOnClickListener(this);
 
         fetchBtn = findViewById(R.id.FetchBtn);
         fetchBtn.setOnClickListener(this);
@@ -90,10 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         url = urlText.getText().toString();
         if(id==R.id.FetchBtn){
-            url="https://stocksnap.io";
+//            url="https://stocksnap.io";
             if(isHttpUrl(url)){
                 downloadProgress = 0;
-                Toast.makeText(MainActivity.this, "Downloading", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Downloading...", Toast.LENGTH_SHORT).show();
                 if (bkgdThread != null) {
                     bkgdThread.interrupt();
                     return;
@@ -102,18 +100,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bkgdThread.start();
             }
             else {
-                Toast.makeText(MainActivity.this, "Please enter the correct URL", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(MainActivity.this, "Please enter valid URL", Toast.LENGTH_SHORT).show();
             }
-
-
         }
         else if(id == R.id.gridView){
             ImageView imageView = (ImageView) view;
             String imageName = (String) imageView.getTag();
             Toast.makeText(this, "Clicked image: " + imageName, Toast.LENGTH_LONG).show();
         }
-
     }
 
     public Thread findImageUrls(String urlString) {
@@ -147,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void run() {
                                     downloadProgress+=1;
-                                    textView.setText(downloadProgress+"/20");
+//                                    textView.setText(downloadProgress+"/20");
+                                    textView.setText(String.format("Downloading %d of 20 images..", downloadProgress));
                                     textView.setVisibility(View.VISIBLE);
                                     progressBar.setProgress(downloadProgress);
                                     progressBar.setVisibility(View.VISIBLE);
@@ -165,12 +160,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 handler.postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
+                                                        // remove the progress bar after download complete
+                                                        progressBar.setVisibility(View.INVISIBLE);
+                                                        textView.setVisibility(View.INVISIBLE);
                                                         popupWindow.dismiss(); // 关闭弹出窗口
                                                     }
                                                 }, 3000);
                                             }
                                         }, 1000);
-
                                     }
                                 }
                             });
@@ -178,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     bkgdThread = null;
                     if(images.size()==0 ){
-                        Toast.makeText(MainActivity.this, "No image can be download", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "No image were downloaded", Toast.LENGTH_LONG).show();
                         Looper.loop();
                     }
                 } catch (Exception e) {
@@ -191,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void showPopup(){
         View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.popup_layout, null);
-        popupWindow = new PopupWindow(popupView, 900, 700);
+        popupWindow = new PopupWindow(popupView, 900, 500);
         popupWindow.setElevation(10f);
         TextView textView1 = popupView.findViewById(R.id.popView);
         textView1.setVisibility(View.VISIBLE);
@@ -230,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
     }
-
 }
 
 

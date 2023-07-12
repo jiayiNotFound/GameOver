@@ -72,7 +72,6 @@ public class MusicService extends Service {
             player.release();
             player = null;
         }
-
         onStop();
     }
     protected void onPlay()

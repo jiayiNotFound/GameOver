@@ -35,12 +35,11 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
-
     private String[] mImagePaths;
     String previousId;
     float scale;
     String[] selectedImage =new String[6];
-    int seletedCount =0;
+    int selectedCount = 0;
     List<ImageView> selectImageView = new ArrayList<>();
 
 
@@ -73,7 +72,6 @@ public class ImageAdapter extends BaseAdapter {
 
         if (convertView == null) {
 
-
             imageView = new ImageView(mContext);
 
             imageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
@@ -83,10 +81,8 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setPadding(15, 15, 15,15);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-
         } else {
             imageView = (ImageView) convertView;
-
         }
 
         File imageFile = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), mImagePaths[position]);
@@ -112,22 +108,21 @@ public class ImageAdapter extends BaseAdapter {
                     }
                 }
                 if(!res){
-                    if(seletedCount<6){
+                    if(selectedCount<6){
                         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.scale_animation);
                         imageView.setBackground(mContext.getDrawable(R.drawable.border_selected));
                         imageView.setElevation(10f);
                         imageView.startAnimation(anim);
                         selectImageView.add(imageView);
-                        selectedImage[seletedCount] = imageId;
+                        selectedImage[selectedCount] = imageId;
                     }
-                    seletedCount++;
-                    if(seletedCount==6){
+                    selectedCount++;
+                    if(selectedCount==6){
                         showPopup(v);
                     }
                 }
                 previousId = imageId;
             }
-
         });
 
         return imageView;
@@ -139,10 +134,13 @@ public class ImageAdapter extends BaseAdapter {
     public void showPopup(View v){
         View popupView = LayoutInflater.from(mContext).inflate(R.layout.popup_layout, null);
         PopupWindow popupWindow = new PopupWindow(popupView, 1000, 800);
-        Button play = popupView.findViewById(R.id.startBtn);
 
+        TextView txtPopup = popupView.findViewById(R.id.popView);
+        txtPopup.setText("Images Selected! \n\nReady to Play?");
+        Button play = popupView.findViewById(R.id.startBtn);
         Button choose = popupView.findViewById(R.id.choose);
 
+        txtPopup.setVisibility(View.VISIBLE);
         play.setVisibility(v.VISIBLE);
         choose.setVisibility(v.VISIBLE);
 
@@ -151,12 +149,10 @@ public class ImageAdapter extends BaseAdapter {
             public void onClick(View view) {
                 popupWindow.dismiss();
                 Arrays.fill(selectedImage, null);
-                seletedCount = 0;
+                selectedCount = 0;
                 for (ImageView imageView : selectImageView) {
                     imageView.setBackground(null);
-
                 }
-
             }
         });
         play.setOnClickListener(new View.OnClickListener() {

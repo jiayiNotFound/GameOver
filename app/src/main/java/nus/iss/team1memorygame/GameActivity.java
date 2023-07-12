@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
 
     GridView gridView;
     TextView textView;
+    TextView txtMatches;
     Timer timer;
     int count =0;
     String[] selectedImage =new String[6];
@@ -37,8 +39,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_game);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //Achieve full screen
+
         gridView = findViewById(R.id.gameGrid);
         Intent intent = getIntent();
         selectedImage = intent.getStringArrayExtra("listSelected");
@@ -47,7 +51,9 @@ public class GameActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter("game_over");
         registerReceiver(completed_Msg, intentFilter);
 
-        textView =findViewById(R.id.textS);
+        txtMatches = findViewById(R.id.txtMatches);
+        txtMatches.setText("0 of 6 matches");
+        textView = findViewById(R.id.textS);
         startTimer();
 
     }
@@ -62,7 +68,10 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        textView.setText("Time Spend: " + count + " s");
+                        int minutes = count / 60;
+                        int hours = minutes / 60;
+                        int seconds = count % 60;
+                        textView.setText("Time: " + String.format("%02d:%02d::%02d",hours, minutes, seconds));
                     }
                 });
             }
@@ -80,7 +89,7 @@ public class GameActivity extends AppCompatActivity {
             String action = intent.getAction();
             if(action.equals("game_over")){
                stopTimer();
-                showPopup();
+               showPopup();
             }
         }
 
@@ -93,23 +102,28 @@ public class GameActivity extends AppCompatActivity {
     }
     public void showPopup(){
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
-        popupWindow = new PopupWindow(popupView, 1000, 1000);
+        popupWindow = new PopupWindow(popupView, 900, 600);
         popupWindow.setElevation(10f);
         TextView textView1 = popupView.findViewById(R.id.popView);
-        textView1.setText("Game Over, time spend: "+count);
+        int minutes = count / 60;
+        int seconds = count % 60;
+        String timeTaken = String.format("%02d min %02d sec", minutes, seconds);
+        textView1.setText("Congratulations!!! \n\nYour Time: "+ timeTaken);
         textView1.setVisibility(View.VISIBLE);
 
-        Button button =popupView.findViewById(R.id.startBtn);
-        button.setText("Play again?");
+        Button button = popupView.findViewById(R.id.startBtn);
+        button.setText("Back To Home");
         button.setVisibility(View.VISIBLE);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Intent stopMusicIntent = new Intent(GameActivity.this, MusicService.class);
+//                stopMusicIntent.setAction("stop");
+//                startService(stopMusicIntent);
                 Intent intent = new Intent(GameActivity.this,MainActivity.class);
                 startActivity(intent);
             }
         });
-
         popupWindow.showAtLocation(this.gridView, Gravity.CENTER, 0, 0);
     }
 

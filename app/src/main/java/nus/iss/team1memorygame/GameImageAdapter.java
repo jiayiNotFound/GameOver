@@ -2,17 +2,13 @@ package nus.iss.team1memorygame;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 
@@ -26,7 +22,7 @@ public class GameImageAdapter extends BaseAdapter {
     private Context mContext;
     private String[] hidden = new String[12];
     String previousSelect = "";
-    int previousPostion;
+    int previousPosition;
     ImageView previousImage;
     ImageView temp;
     int match=0;
@@ -87,13 +83,12 @@ public class GameImageAdapter extends BaseAdapter {
 
             imageView = (ImageView) convertView;
         }
-
         imageView.setImageResource(R.drawable.dog);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                  if(previousPostion!=position){
+                  if(previousPosition !=position){
                       File imageFile = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), hidden[position]);
                       Uri imageUri = Uri.fromFile(imageFile);
                       int isSame =0;
@@ -107,37 +102,30 @@ public class GameImageAdapter extends BaseAdapter {
 
                           isSame =1;
                           match++;
+                          if(mContext instanceof GameActivity){
+                              TextView txtMatches = ((GameActivity)mContext).findViewById(R.id.txtMatches);
+                              txtMatches.setText(String.format("%d of 6 matches", match));
+                          }
                           if(match==6){
                               Intent completed = new Intent();
                               completed.setAction("game_over");
                               mContext.sendBroadcast(completed);
                           }
-
                       }
-
                       else if(previousImage!=null){
                           previousImage.setImageResource(R.drawable.dog);
-
                       }
-
                       if(isSame==1){
                           previousSelect="";
                           previousImage =null;
-
                       }else {
                           previousSelect=hidden[position];
                           previousImage =imageView;
                       }
                   }
-
-                previousPostion =position;
-
+                previousPosition =position;
             }
         });
-
-
         return imageView;
     }
-
-
 }

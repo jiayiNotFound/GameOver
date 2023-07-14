@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ListViewAdapter extends ArrayAdapter<Object> {
@@ -46,8 +48,10 @@ public class ListViewAdapter extends ArrayAdapter<Object> {
         textView2.setText(scoreString);
 
         TextView textView3 = view.findViewById(R.id.text3);
-        String time =scoreList.get(pos).getTime();
-        textView3.setText(time);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formatDate = now.format(formatter);
+        textView3.setText(formatDate);
 
         return view;
     }

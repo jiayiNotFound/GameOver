@@ -6,34 +6,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
     TextView txtMatches;
     Timer timer;
     int count =0;
+
 
     String username;
     String[] selectedImage =new String[6];
@@ -103,17 +93,15 @@ public class GameActivity extends AppCompatActivity {
             timer=null;
         }
     }
-    protected BroadcastReceiver completed_Msg = new BroadcastReceiver(){
+    BroadcastReceiver completed_Msg = new BroadcastReceiver(){
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(action.equals("game_over")){
                stopTimer();
-
                 showPopup();
                 writeToFile(username,count);
             }
         }
-
     };
 
     protected void writeToFile(String resource, int count) {
@@ -147,6 +135,12 @@ public class GameActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+  protected void onStop() {
+      super.onStop();
+        unregisterReceiver(completed_Msg);
+  }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -194,5 +188,6 @@ public class GameActivity extends AppCompatActivity {
         });
         popupWindow.showAtLocation(this.gridView, Gravity.CENTER, 0, 0);
     }
+
 
 }

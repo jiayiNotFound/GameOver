@@ -110,6 +110,8 @@ public class GameImageAdapter extends BaseAdapter {
                               Intent completed = new Intent();
                               completed.setAction("game_over");
                               mContext.sendBroadcast(completed);
+                              completed=null;
+                              return;
                           }
                       }
                       else if(previousImage!=null){

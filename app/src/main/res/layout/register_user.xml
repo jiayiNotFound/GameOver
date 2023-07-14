@@ -5,17 +5,19 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:padding="16dp"
-    android:background="#2196F3">
+    android:background="#862196F3">
 
     <EditText
         android:id="@+id/playername"
-        android:layout_width="120dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:hint="Player name"
         android:textSize="16sp"
         android:textColor="#fff"
+        android:textColorHint="#fff"
         android:gravity="center"
         android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
         />
     <Button
         android:id="@+id/startgame"
@@ -23,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Start"
         android:gravity="center"
-        android:backgroundTint="#FF9800"
+        android:backgroundTint="#2196F3"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         />
